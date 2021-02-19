@@ -29,10 +29,23 @@ namespace workshops_api.Controllers
 
         [HttpDelete]
         [Route("workshops-truextend/{id}")]
-        public bool
-        Delete(string id) // CI:65008816
+        public void Delete(string id)
         {
-            return _priceLogic.DeleteWorkShops(id);
+            _priceLogic.DeleteWorkshop(id);
+        }
+
+        [HttpPost]
+        [Route("workshops-truextend")]
+        public void Post([FromBody] WorkshopsDTO newWorkshopDTO)
+        {
+            _priceLogic.CreateWorkshop(newWorkshopDTO);
+        }
+
+        [HttpPut]
+        [Route("workshops-truextend/{id}")]
+        public void Put(string id, [FromBody] WorkshopsDTO updateWorkShop)
+        {
+            _priceLogic.UpdateListWorkshop(updateWorkShop, id);
         }
     }
 }

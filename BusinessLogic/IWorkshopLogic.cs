@@ -6,7 +6,10 @@ namespace workshops_api.BusinessLogic
     public interface IWorkshopLogic
     {
         List<WorkshopsDTO> GetWorkshops();
-        public bool DeleteWorkShops(string id);
 
+        void DeleteWorkshop(string code);
+        void UpdateListWorkshop(WorkshopsDTO workshopToUpdate, string id);
+
+        void CreateWorkshop(WorkshopsDTO newWorkshop);
     }
 }

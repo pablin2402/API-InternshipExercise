@@ -31,31 +31,18 @@ namespace workshops_api.Database
                 };
         }
 
-        public List<Workshop> GetAll()
+        public List<Workshop> GetAllWorkshops()
         {
             return workshop;
         }
-
-        public List<Workshop> GetById(string id)
-        {
-            var pricingbook = workshop.FirstOrDefault(d => d.Id.Equals(id));
-            List<Workshop> workshops = new List<Workshop>();
-            if (pricingbook != null)
-            {
-                workshops.Add (pricingbook);
-            }
-
-            return workshops;
-        }
-
         public void AddNew(Workshop newWorkshop)
         {
-            workshop.Add (newWorkshop);
+            workshop.Add(newWorkshop);
         }
 
         public void Update(Workshop studentToUpdate, string code)
         {
-            foreach (Workshop workshop in GetAll())
+            foreach (Workshop workshop in GetAllWorkshops())
             {
                 if (workshop.Id.Equals(code))
                 {
@@ -71,11 +58,11 @@ namespace workshops_api.Database
         {
             int count = 0;
 
-            foreach (Workshop workshop in GetAll())
+            foreach (Workshop workshop in GetAllWorkshops())
             {
                 if (workshop.Equals(code))
                 {
-                    GetAll().RemoveAt(count);
+                    GetAllWorkshops().RemoveAt(count);
                     break;
                 }
                 else

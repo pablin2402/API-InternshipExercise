@@ -21,51 +21,18 @@ namespace workshops_api.Controllers
         }
 
         [HttpGet]
-        // [Route("pricing-books")]
+        [Route("workshops-truextend")]
         public IEnumerable<WorkshopsDTO> GetAll()
         {
             return _priceLogic.GetWorkshops();
         }
-        /*
-        private static readonly string[]
-            Summaries =
-                new []
-                {
-                    "Freezing",
-                    "Bracing",
-                    "Chilly",
-                    "Cool",
-                    "Mild",
-                    "Warm",
-                    "Balmy",
-                    "Hot",
-                    "Sweltering",
-                    "Scorching"
-                };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(
-            ILogger<WeatherForecastController> logger
-        )
+        [HttpDelete]
+        [Route("workshops-truextend/{id}")]
+        public bool
+        Delete(string id) // CI:65008816
         {
-            _logger = logger;
+            return _priceLogic.DeleteWorkShops(id);
         }
-
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            var rng = new Random();
-            return Enumerable
-                .Range(1, 5)
-                .Select(index =>
-                    new WeatherForecast {
-                        Date = DateTime.Now.AddDays(index),
-                        TemperatureC = rng.Next(-20, 55),
-                        Summary = Summaries[rng.Next(Summaries.Length)]
-                    })
-                .ToArray();
-        }
-        */
     }
 }

@@ -23,7 +23,6 @@ namespace workshops_api.BusinessLogic
             foreach (Workshop listWS in allWorkShops)
             {
                 fillWorkShopList (workshopsLists, listWS);
-                Console.WriteLine("caca" + listWS);
             }
 
             return workshopsLists;
@@ -38,5 +37,47 @@ namespace workshops_api.BusinessLogic
                 .Add(new WorkshopsDTO()
                 { Id = listWS.Id, Name = listWS.Name, Status = listWS.Status });
         }
+
+        public List<WorkshopsDTO> GetWorkshopsById(string id)
+        {
+            List<Workshop> allWorkShops = _workshopDB.GetAll();
+
+            List<WorkshopsDTO> workshopsLists = new List<WorkshopsDTO>();
+
+            foreach (Workshop listWS in allWorkShops)
+            {
+                fillWorkShopList (workshopsLists, listWS);
+            }
+
+            return workshopsLists;
+        }
+
+        public bool DeleteWorkShops(string id)
+        {
+            List<WorkshopsDTO> workshopsList = GetWorkshops();
+            foreach (WorkshopsDTO pbDTO in workshopsList)
+            {
+                if (pbDTO.Id.Equals(id))
+                {
+                    workshopsList.Remove (pbDTO);
+                    return true;
+                }
+            }
+            return false;
+        }
+        /*
+        public WorkshopsDTO
+        UpdateListProduct(WorkshopsDTO workshopToUpdate, string id)
+        {
+            Workshop pbUpdated = new Workshop();
+
+            pbUpdated.Name = workshopToUpdate.Name;
+            pbUpdated.Status = workshopToUpdate.Status;
+            
+            return new WorkshopsDTO()
+            { Id = pbInDB.Id, Name = pbInDB.Name, Status = pbInDB.Status };
+        
+        }
+    */
     }
 }

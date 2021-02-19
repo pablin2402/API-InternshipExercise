@@ -84,13 +84,54 @@ namespace workshops_api.BusinessLogic
                 }
             }
 
-            Workshop productDB = new Workshop();
+            Workshop workshopDB = new Workshop();
 
-            productDB.Name = workshopToUpdate.Name;
-            productDB.Status = workshopToUpdate.Status;
+            workshopDB.Name = workshopToUpdate.Name;
+            workshopDB.Status = workshopToUpdate.Status;
 
-            _workshopDB.Update(productDB, id);
+            _workshopDB.Update(workshopDB, id);
         }
+        public void CancelWorkshop(WorkshopsDTO workshopToUpdate, string id)
+        {
+            foreach (WorkshopsDTO workshop in GetWorkshops())
+            {
+                if (workshop.Id.Equals(id))
+                {
+                    workshop.Name = workshopToUpdate.Name;
+                    workshop.Status = Convert.ToString(Status.CANCELLED);
+
+                    break;
+                }
+            }
+
+            Workshop WorkshopDB = new Workshop();
+            WorkshopDB.Name = workshopToUpdate.Name;
+
+            WorkshopDB.Status = Convert.ToString(Status.CANCELLED);
+
+            _workshopDB.Update(WorkshopDB, id);
+        }
+        public void PostponeWorkshop(WorkshopsDTO workshopToUpdate, string id)
+        {
+            foreach (WorkshopsDTO workshop in GetWorkshops())
+            {
+                if (workshop.Id.Equals(id))
+                {
+                    workshop.Name = workshopToUpdate.Name;
+                    workshop.Status = Convert.ToString(Status.POSTPONED);
+
+                    break;
+                }
+            }
+
+            Workshop WorkshopDB = new Workshop();
+
+            WorkshopDB.Name = workshopToUpdate.Name;
+            WorkshopDB.Status = Convert.ToString(Status.POSTPONED);
+
+            _workshopDB.Update(WorkshopDB, id);
+        }
+
 
         public void CreateWorkshop(WorkshopsDTO newWorkshop)
         {
@@ -98,14 +139,14 @@ namespace workshops_api.BusinessLogic
 
             List<Workshop> allProducts = _workshopDB.GetAllWorkshops();
 
-            Workshop productDB = new Workshop();
+            Workshop workshopDB = new Workshop();
 
-            foreach (Workshop product in allProducts)
+            foreach (Workshop workshop in allProducts)
             {
-                if (product.Id == newWorkshop.Id)
+                if (workshop.Id == newWorkshop.Id)
                 {
-                    product.Name = newWorkshop.Name;
-                    product.Status = newWorkshop.Status;
+                    workshop.Name = newWorkshop.Name;
+                    workshop.Status = newWorkshop.Status;
 
                     flag = true;
                 }
@@ -113,17 +154,17 @@ namespace workshops_api.BusinessLogic
 
             if (flag)
             {
-                UpdateListWorkshop(newWorkshop, productDB.Id);
+                UpdateListWorkshop(newWorkshop, workshopDB.Id);
             }
             else
             {
-                WorkshopsDTO productCode =
+                WorkshopsDTO workshopCode =
                     generateCode(allProducts, newWorkshop);
 
-                productDB.Name = productCode.Name;
-                productDB.Status = productCode.Status;
+                workshopDB.Name = workshopCode.Name;
+                workshopDB.Status = workshopCode.Status;
 
-                _workshopDB.AddNew(productDB);
+                _workshopDB.AddNew(workshopDB);
             }
         }
 
@@ -132,13 +173,13 @@ namespace workshops_api.BusinessLogic
             List<Workshop> workshopList = listToAdd;
 
             int id = workshopList.Count() + 1;
-            string code = "WS-1-" + id;
+            string code = "WS-" + id;
             foreach (Workshop sl in workshopList)
             {
                 if (code == sl.Id)
                 {
                     id += 1;
-                    code = "WS-1" + id;
+                    code = "WS-" + id;
                 }
             }
             workshops.Id = code;

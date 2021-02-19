@@ -11,5 +11,7 @@ namespace workshops_api.BusinessLogic
         void UpdateListWorkshop(WorkshopsDTO workshopToUpdate, string id);
 
         void CreateWorkshop(WorkshopsDTO newWorkshop);
+        void CancelWorkshop(WorkshopsDTO workshopToUpdate, string id);
+        void PostponeWorkshop(WorkshopsDTO workshopToUpdate, string id);
     }
 }

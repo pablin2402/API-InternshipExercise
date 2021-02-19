@@ -47,5 +47,17 @@ namespace workshops_api.Controllers
         {
             _priceLogic.UpdateListWorkshop(updateWorkShop, id);
         }
+        [HttpPut]
+        [Route("workshops-truextend-cancelled/{id}")]
+        public void CancellWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
+        {
+            _priceLogic.CancelWorkshop(updateWorkShop, id);
+        }
+        [HttpPut]
+        [Route("workshops-truextend-postponed/{id}")]
+        public void PostponeWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
+        {
+            _priceLogic.PostponeWorkshop(updateWorkShop, id);
+        }
     }
 }

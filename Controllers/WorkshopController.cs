@@ -11,21 +11,22 @@ namespace workshops_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WorkshopController : ControllerBase
     {
         private readonly IWorkshopLogic _priceLogic;
 
-        public WeatherForecastController(IWorkshopLogic pricelogic)
+        public WorkshopController(IWorkshopLogic pricelogic)
         {
             _priceLogic = pricelogic;
         }
-
+        //GET: https://localhost:5001/Workshop/workshops-truextend
         [HttpGet]
         [Route("workshops-truextend")]
         public IEnumerable<WorkshopsDTO> GetAll()
         {
             return _priceLogic.GetWorkshops();
         }
+        //DELETE: https://localhost:5001/Workshop/workshops-truextend/WS-1
 
         [HttpDelete]
         [Route("workshops-truextend/{id}")]
@@ -33,29 +34,32 @@ namespace workshops_api.Controllers
         {
             _priceLogic.DeleteWorkshop(id);
         }
-
+        //POST: https://localhost:5001/Workshop/workshops-truextend
         [HttpPost]
         [Route("workshops-truextend")]
         public void Post([FromBody] WorkshopsDTO newWorkshopDTO)
         {
             _priceLogic.CreateWorkshop(newWorkshopDTO);
         }
-
+        //PUT: https://localhost:5001/Workshop/workshops-truextend/WS-1
         [HttpPut]
         [Route("workshops-truextend/{id}")]
         public void Put(string id, [FromBody] WorkshopsDTO updateWorkShop)
         {
             _priceLogic.UpdateListWorkshop(updateWorkShop, id);
         }
+        //PUT: https://localhost:5001/Workshop/workshops-truextend/status-cancelled/WS-1
         [HttpPut]
-        [Route("workshops-truextend-cancelled/{id}")]
-        public void CancellWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
+        [Route("workshops-truextend/status-cancelled/{id}")]
+        public void CancelledWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
         {
             _priceLogic.CancelWorkshop(updateWorkShop, id);
         }
+        //PUT: https://localhost:5001/Workshop/workshops-truextend/status-postponed/WS-1
+
         [HttpPut]
-        [Route("workshops-truextend-postponed/{id}")]
-        public void PostponeWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
+        [Route("workshops-truextend/status-postponed/{id}")]
+        public void PostponedWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
         {
             _priceLogic.PostponeWorkshop(updateWorkShop, id);
         }

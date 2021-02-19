@@ -18,15 +18,15 @@ namespace workshops_api.Database
                     {
                         Id = "WS-1",
                         Name = "INTRODUCTION INTERNAL APPS",
-                        Status = "SCHEDULED"
+                        Status = Convert.ToString(Status.SCHEDULED)
                     },
                     new Workshop()
-                    { Id = "WS-2", Name = "OOP", Status = "SCHEDULED" },
+                    { Id = "WS-2", Name = "OOP", Status= Convert.ToString(Status.SCHEDULED) },
                     new Workshop()
                     {
                         Id = "WS-3",
                         Name = "Branching Model and Versioning",
-                        Status = "POSTPONED"
+                        Status = Convert.ToString(Status.POSTPONED)
                     }
                 };
         }

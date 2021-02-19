@@ -29,10 +29,7 @@ namespace workshops_api.BusinessLogic
             return workshopsLists;
         }
 
-        public void fillWorkShopList(
-            List<WorkshopsDTO> workshopsLists,
-            Workshop listWS
-        )
+        public void fillWorkShopList(List<WorkshopsDTO> workshopsLists, Workshop listWS)
         {
             workshopsLists
                 .Add(new WorkshopsDTO()

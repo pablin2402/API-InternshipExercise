@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using workshops_api.BusinessLogic;
 using workshops_api.Controllers.DTOModels;
 
@@ -50,7 +47,7 @@ namespace workshops_api.Controllers
         }
         //PUT: https://localhost:5001/Workshop/workshops-truextend/status-cancelled/WS-1
         [HttpPut]
-        [Route("workshops-truextend/status-cancelled/{id}")]
+        [Route("workshops-truextend/{id}/cancelled")]
         public void CancelledWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
         {
             _priceLogic.CancelWorkshop(updateWorkShop, id);
@@ -58,7 +55,7 @@ namespace workshops_api.Controllers
         //PUT: https://localhost:5001/Workshop/workshops-truextend/status-postponed/WS-1
 
         [HttpPut]
-        [Route("workshops-truextend/status-postponed/{id}")]
+        [Route("workshops-truextend/{id}/postponed")]
         public void PostponedWorkshop(string id, [FromBody] WorkshopsDTO updateWorkShop)
         {
             _priceLogic.PostponeWorkshop(updateWorkShop, id);

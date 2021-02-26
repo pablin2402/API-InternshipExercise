@@ -1,3 +1,4 @@
+using BusinessLogic.Exception;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +53,11 @@ namespace workshops_api.BusinessLogic
 
         public void DeleteWorkshop(string code)
         {
+            if (string.IsNullOrEmpty(code))
+            {
+                throw new EmptyOrNullStatus("Code cannot be null");
+            }
+
             int count = 0;
 
             foreach (WorkshopsDTO workshop in GetWorkshops())
@@ -70,6 +76,11 @@ namespace workshops_api.BusinessLogic
 
         public void UpdateListWorkshop(WorkshopsDTO workshopToUpdate, string id)
         {
+            if (string.IsNullOrEmpty(workshopToUpdate.Id))
+            {
+                throw new EmptyOrNullStatus("Code cannot be null");
+            }
+
             foreach (WorkshopsDTO workshop in GetWorkshops())
             {
                 if (workshop.Id.Equals(id))
@@ -77,7 +88,6 @@ namespace workshops_api.BusinessLogic
                     workshop.Name = workshopToUpdate.Name;
                     workshop.Status = workshopToUpdate.Status;
 
-                    break;
                 }
             }
 
@@ -90,6 +100,11 @@ namespace workshops_api.BusinessLogic
         }
         public void CancelWorkshop(WorkshopsDTO workshopToUpdate, string id)
         {
+            if (string.IsNullOrEmpty(workshopToUpdate.Id))
+            {
+                throw new EmptyOrNullId("Code cannot be null");
+            }
+
             foreach (WorkshopsDTO workshop in GetWorkshops())
             {
                 if (workshop.Id.Equals(id))
@@ -97,7 +112,6 @@ namespace workshops_api.BusinessLogic
                     workshop.Name = workshopToUpdate.Name;
                     workshop.Status = Convert.ToString(Status.CANCELLED);
 
-                    break;
                 }
             }
 
@@ -110,6 +124,11 @@ namespace workshops_api.BusinessLogic
         }
         public void PostponeWorkshop(WorkshopsDTO workshopToUpdate, string id)
         {
+            if (string.IsNullOrEmpty(workshopToUpdate.Id))
+            {
+                throw new EmptyOrNullId("Code cannot be null");
+            }
+
             foreach (WorkshopsDTO workshop in GetWorkshops())
             {
                 if (workshop.Id.Equals(id))
@@ -117,7 +136,6 @@ namespace workshops_api.BusinessLogic
                     workshop.Name = workshopToUpdate.Name;
                     workshop.Status = Convert.ToString(Status.POSTPONED);
 
-                    break;
                 }
             }
 
@@ -132,6 +150,16 @@ namespace workshops_api.BusinessLogic
 
         public void CreateWorkshop(WorkshopsDTO newWorkshop)
         {
+           
+            if (string.IsNullOrEmpty(newWorkshop.Name))
+            {
+                throw new EmptyOrNullStatus("Name cannot be null");
+            }
+            if (string.IsNullOrEmpty(newWorkshop.Status))
+            {
+                throw new EmptyOrNullStatus("Status cannot be null");
+            }
+
             bool flag = false;
 
             List<Workshop> allProducts = _workshopDB.GetAllWorkshops();

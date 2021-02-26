@@ -1,3 +1,5 @@
+using BusinessLogic.Exception;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +54,11 @@ namespace workshops_api.BusinessLogic
 
         public void DeleteWorkshop(string code)
         {
+            if (string.IsNullOrEmpty(code))
+            {
+                throw new EmptyOrNullStatus("Code cannot be null");
+            }
+
             int count = 0;
 
             foreach (WorkshopsDTO workshop in GetWorkshops())
@@ -70,15 +77,15 @@ namespace workshops_api.BusinessLogic
 
         public void UpdateListWorkshop(WorkshopsDTO workshopToUpdate, string id)
         {
-            foreach (WorkshopsDTO workshop in GetWorkshops())
+            if (string.IsNullOrEmpty(id))
             {
-                if (workshop.Id.Equals(id))
-                {
-                    workshop.Name = workshopToUpdate.Name;
-                    workshop.Status = workshopToUpdate.Status;
+                throw new EmptyOrNullStatus("Code cannot be null");
+            }
 
-                    break;
-                }
+            foreach (var workshop in GetWorkshops().Where(workshop => workshop.Id.Equals(id)))
+            {
+                workshop.Name = workshopToUpdate.Name;
+                workshop.Status = workshopToUpdate.Status;
             }
 
             Workshop workshopDB = new Workshop();
@@ -90,15 +97,15 @@ namespace workshops_api.BusinessLogic
         }
         public void CancelWorkshop(WorkshopsDTO workshopToUpdate, string id)
         {
-            foreach (WorkshopsDTO workshop in GetWorkshops())
+            if (string.IsNullOrEmpty(workshopToUpdate.Id))
             {
-                if (workshop.Id.Equals(id))
-                {
-                    workshop.Name = workshopToUpdate.Name;
-                    workshop.Status = Convert.ToString(Status.CANCELLED);
+                throw new EmptyOrNullId("Code cannot be null");
+            }
 
-                    break;
-                }
+            foreach (var workshop in GetWorkshops().Where(workshop => workshop.Id.Equals(id)))
+            {
+                workshop.Name = workshopToUpdate.Name;
+                workshop.Status = Convert.ToString(Status.CANCELLED);
             }
 
             Workshop WorkshopDB = new Workshop();
@@ -110,15 +117,15 @@ namespace workshops_api.BusinessLogic
         }
         public void PostponeWorkshop(WorkshopsDTO workshopToUpdate, string id)
         {
-            foreach (WorkshopsDTO workshop in GetWorkshops())
+            if (string.IsNullOrEmpty(workshopToUpdate.Id))
             {
-                if (workshop.Id.Equals(id))
-                {
-                    workshop.Name = workshopToUpdate.Name;
-                    workshop.Status = Convert.ToString(Status.POSTPONED);
+                throw new EmptyOrNullId("Code cannot be null");
+            }
 
-                    break;
-                }
+            foreach (var workshop in GetWorkshops().Where(workshop => workshop.Id.Equals(id)))
+            {
+                workshop.Name = workshopToUpdate.Name;
+                workshop.Status = Convert.ToString(Status.POSTPONED);
             }
 
             Workshop WorkshopDB = new Workshop();
@@ -132,21 +139,26 @@ namespace workshops_api.BusinessLogic
 
         public void CreateWorkshop(WorkshopsDTO newWorkshop)
         {
+
+            if (string.IsNullOrEmpty(newWorkshop.Name))
+            {
+                throw new EmptyOrNullStatus("Name cannot be null");
+            }
+            if (string.IsNullOrEmpty(newWorkshop.Status))
+            {
+                throw new EmptyOrNullStatus("Status cannot be null");
+            }
+
             bool flag = false;
 
             List<Workshop> allProducts = _workshopDB.GetAllWorkshops();
 
             Workshop workshopDB = new Workshop();
-
-            foreach (Workshop workshop in allProducts)
+            foreach (var workshop in allProducts.Where(workshop => workshop.Id == newWorkshop.Id))
             {
-                if (workshop.Id == newWorkshop.Id)
-                {
-                    workshop.Name = newWorkshop.Name;
-                    workshop.Status = newWorkshop.Status;
-
-                    flag = true;
-                }
+                workshop.Name = newWorkshop.Name;
+                workshop.Status = newWorkshop.Status;
+                flag = true;
             }
 
             if (flag)
@@ -168,17 +180,15 @@ namespace workshops_api.BusinessLogic
         private WorkshopsDTO generateCode(List<Workshop> listToAdd, WorkshopsDTO workshops)
         {
             List<Workshop> workshopList = listToAdd;
-
+            const string IdName = "WS-";
             int id = workshopList.Count() + 1;
-            string code = "WS-" + id;
-            foreach (Workshop sl in workshopList)
+            string code = IdName + id;
+            foreach (var _ in workshopList.Where(sl => code == sl.Id).Select(sl => new { }))
             {
-                if (code == sl.Id)
-                {
-                    id += 1;
-                    code = "WS-" + id;
-                }
+                id += 1;
+                code = IdName + id;
             }
+
             workshops.Id = code;
 
             return workshops;

@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using workshops_api.BusinessLogic;
 using workshops_api.Database;
+using workshops_api.BusinessLogic;
+using Controllers.Middleware;
+//using Serilog;
+//using Serilog.Events;
 
 namespace workshops_api
 {
@@ -40,12 +37,12 @@ namespace workshops_api
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseExceptionHandlerMiddleware();
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthorizationMiddleware();
 
             app
                 .UseEndpoints(endpoints =>

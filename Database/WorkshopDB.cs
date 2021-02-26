@@ -49,7 +49,6 @@ namespace workshops_api.Database
                     workshop.Name = studentToUpdate.Name;
                     workshop.Status = studentToUpdate.Status;
 
-                    break;
                 }
             }
         }
@@ -63,7 +62,6 @@ namespace workshops_api.Database
                 if (workshop.Equals(code))
                 {
                     GetAllWorkshops().RemoveAt(count);
-                    break;
                 }
                 else
                 {
